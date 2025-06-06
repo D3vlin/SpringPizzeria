@@ -3,12 +3,16 @@ package com.d3vlin13.pizzeria.service;
 import com.d3vlin13.pizzeria.persistence.entity.PizzaEntity;
 import com.d3vlin13.pizzeria.persistence.repository.IPizzaPagSortRepository;
 import com.d3vlin13.pizzeria.persistence.repository.IPizzaRepository;
+import com.d3vlin13.pizzeria.service.dto.UpdatePizzaPriceDto;
+import com.d3vlin13.pizzeria.service.exception.EmailApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -76,5 +80,15 @@ public class PizzaService {
 
     public boolean exists(int idPizza) {
         return this.pizzaRepository.existsById(idPizza);
+    }
+
+    @Transactional(noRollbackFor = EmailApiException.class, propagation = Propagation.REQUIRED)
+    public void updatePrice(UpdatePizzaPriceDto dto) {
+        this.pizzaRepository.updatePrice(dto);
+        this.sendEmail();
+    }
+
+    private void sendEmail() {
+        throw new EmailApiException();
     }
 }
