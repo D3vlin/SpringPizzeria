@@ -1,4 +1,4 @@
-package com.d3vlin13.pizzeria.persistence.projection;
+package com.d3vlin13.pizzeria.persistence.Projection;
 
 import java.time.LocalDateTime;
 

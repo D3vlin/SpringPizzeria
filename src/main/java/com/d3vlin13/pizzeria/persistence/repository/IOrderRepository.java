@@ -1,8 +1,9 @@
 package com.d3vlin13.pizzeria.persistence.repository;
 
-import com.d3vlin13.pizzeria.persistence.projection.IOrderSummary;
+import com.d3vlin13.pizzeria.persistence.Projection.IOrderSummary;
 import com.d3vlin13.pizzeria.persistence.entity.OrderEntity;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -26,4 +27,7 @@ public interface IOrderRepository extends ListCrudRepository<OrderEntity, Intege
             "WHERE po.id_order = :orderId " +
             "GROUP BY po.id_order, cu.name, po.date, po.total", nativeQuery = true)
     IOrderSummary findSummary(@Param("orderId") int orderId);
+
+    @Procedure(value = "take_random_pizza_order", outputParameterName = "order_taken")
+    boolean saveRandomOrder(@Param("id_customer") String idCustomer, @Param("method") String method);
 }
