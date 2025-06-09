@@ -65,6 +65,16 @@ VALUES
 (5, 2, 12, 0.5, 9.5),
 (6, 1, 11, 1, 23);
 
+-- INSERT USER
+INSERT INTO `user` (`username`, `disabled`, `email`, `locked`, `password`)
+VALUES ('admin', '0', 'admin@email.com', '0', '$2y$10$1OZJ.MkBY44fs2tzzanyE.sZDR1pN9yFjrdUi0pldpVS0ABd/m54u'),
+VALUES ('customer', '0', 'customer@email.com', '0', '$2y$10$irPHBVdIHwC1CY5Dcf5MROw9RBDeUhK79m2j/22xzIKUylxDvE0ui');
+
+-- INSERT USER_ROLE
+INSERT INTO `user_role` (`role`, `username`, `granted_data`)
+VALUES ('ADMIN', 'admin', NOW()),
+('CUSTOMER', 'customer', NOW());
+
 DROP procedure IF EXISTS `take_random_pizza_order`;
 DELIMITER $$
 CREATE PROCEDURE `take_random_pizza_order`(	IN id_customer VARCHAR(15),
